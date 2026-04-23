@@ -1,45 +1,37 @@
 package com.liu.studentmanagement.controller;
 
 import com.liu.studentmanagement.entity.StudentScore;
-import com.liu.studentmanagement.mapper.StudentScoreMapper;
+import com.liu.studentmanagement.service.IStudentScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * 学生成绩接口
+ * 采用标准企业级流程：Controller -> Service -> Mapper
+ */
 @RestController
-@RequestMapping("/score")
+@RequestMapping("api/1/study/score") // 符合社长要求的版本化路径
 public class StudentScoreController {
 
     @Autowired
-    private StudentScoreMapper studentScoreMapper;
+    private IStudentScoreService scoreService;
 
-    // 1. 検索 (查询所有成绩)
+    /**
+     * 查询所有成绩
+     */
     @GetMapping("/all")
-    public List<StudentScore> getAll() {
-        return studentScoreMapper.selectList(null);
+    public List<StudentScore> getAllScores() {
+        return scoreService.list();
     }
 
-    // 2. 登録 (新增成绩) - 对应老师要求的 @PostMapping
-    // @RequestBody 表示接收前端传来的 JSON 数据
-    @PostMapping("/add")
-    public String add(@RequestBody StudentScore score) {
-        studentScoreMapper.insert(score);
-        return "登録成功！";
-    }
-
-    // 3. 更新 (修改成绩) - 标准使用 @PutMapping
-    @PutMapping("/update")
-    public String update(@RequestBody StudentScore score) {
-        studentScoreMapper.updateById(score);
-        return "更新成功！";
-    }
-
-    // 4. 削除 (删除成绩) - 标准使用 @DeleteMapping
-    // 路径里的 {id} 会被传给方法
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
-        studentScoreMapper.deleteById(id);
-        return "削除成功！";
+    /**
+     * 模糊搜索成绩（包含学生姓名、课程名、教师名）
+     * 访问地址：http://localhost:8080/api/1/study/score/search?keyword=刘
+     */
+    @GetMapping("/search")
+    public List<StudentScore> search(@RequestParam String keyword) {
+        return scoreService.findByBlurry(keyword);
     }
 }
