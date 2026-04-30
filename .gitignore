@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+# --- 以下是你需要手动添加的内容 ---
+
+# 忽略后端生成的临时文件夹
+target/
+.idea/
+*.iml
+
+# 忽略前端依赖文件夹（这个最重要，不然GitHub传不上去）
+student-ui/node_modules/
+student-ui/dist/

@@ -12,6 +12,7 @@ import java.util.List;
  * 采用标准企业级流程：Controller -> Service -> Mapper
  */
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("api/1/study/score") // 符合社长要求的版本化路径
 public class StudentScoreController {
 
