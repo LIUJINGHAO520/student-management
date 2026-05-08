@@ -1,0 +1,22 @@
+# 1. 数据库连接配置
+spring:
+  datasource:
+    # 关键修改：时区设置为 Asia/Tokyo（东京/日本标准时间）
+    url: jdbc:mysql://localhost:3306/study?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Tokyo&allowPublicKeyRetrieval=true
+    username: study
+    password: study
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 2. 服务器端口
+server:
+  port: 8080
+
+# 3. MyBatis-Plus 配置
+mybatis-plus:
+  # 必须确保 XML 位于 src/main/resources/mapper 文件夹下
+  mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+    # 开启驼峰命名自动转换（把数据库 student_name 映射到 Java 的 studentName）
+    map-underscore-to-camel-case: true
+    # 控制台打印 SQL 运行日志（方便你排查模糊查询写得对不对）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
